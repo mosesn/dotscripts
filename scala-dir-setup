@@ -1,7 +1,14 @@
 #!/bin/zsh
 
+if [ $# -lt 1 ]
+then
+    echo "You need to supply a name argument."
+    exit 1
+fi
+
 mkdir -p ./src/main/scala
 mkdir -p ./src/test/scala
+mkdir ./project
 
 echo 'name := "'$1'"
 
@@ -11,3 +18,8 @@ scalaVersion := "2.9.1"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "1.7.1" % "test"
 ' > build.sbt
+
+echo 'addSbtPlugin("org.ensime" % "ensime-sbt-cmd" % "0.0.7")' > ./project/plugins.sbt
+
+sbt 'ensime generate'
+
