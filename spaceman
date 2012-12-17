@@ -1,0 +1,18 @@
+#!/usr/local/bin/scala
+!#
+
+object Driver {
+  def main(args: Array[String]) {
+    val fptrs = if (args.length == 0)
+      Seq(io.Source.stdin)
+    else
+      (for (arg <- args)
+        yield io.Source.fromFile(arg)).toSeq
+    for (fptr <- fptrs)
+      for (line <- fptr.getLines())
+        println(replaceMultiWhitespace(line))
+  }
+
+  def replaceMultiWhitespace(line: String): String =
+    line.split("\\s+").filter(!_.isEmpty).mkString("\t")
+}
